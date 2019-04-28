@@ -44,13 +44,9 @@ public class FlightJpaRepository {
 		String SQL = "select f from Flight f where f.dipatureDate>= '" + timeStamp + "' and sysDate between '"
 				+ startDate + "' and '" + endDate + "' and f.originPoint = '" + 
 						 origin + "' and destinationPoint = '" + destination + "'";
-		System.out.println(SQL);
 		Query query = eManager.createQuery(SQL);
 		List<Flight> list = query.getResultList();
 
-		for (Flight e : list) {
-			System.out.println("subscriber " + e.getFlightNumber());
-		}
 		return list;
 	}
 
@@ -66,21 +62,16 @@ public class FlightJpaRepository {
 		String endDate = sdf.format(currentDate.getTime());
 		Calendar cal = Calendar.getInstance();
 		cal.set(2, cal.get(2) - 1);
-		// cal.set(currentDate.getYear(), currentDate.getMonth(), currentDate.getDay() -
-		// 7);
+		
 
 		String startDate = sdf.format(cal.getTime());
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 		String SQL = "select f from Flight f where f.dipatureDate>= '" + timeStamp + "' and sysDate between '" + 
 						startDate + "' and '" + endDate + "' and f.originPoint = '" + 
 				 origin + "' and destinationPoint = '" + destination + "'";
-		System.out.println(SQL);
 		Query query = eManager.createQuery(SQL);
 		List<Flight> list = query.getResultList();
 
-		for (Flight e : list) {
-			System.out.println("subscriber " + e.getFlightNumber());
-		}
 		return list;
 	}
 
@@ -99,13 +90,10 @@ public class FlightJpaRepository {
 				+ "' and f.originPoint = '" + origin + "' and destinationPoint = '" + destination + "'";
 		Query query = eManager.createQuery(SQL);
 		List<Long> result = query.getResultList();
-		System.out.println(result.get(0));
 		if (result.get(0) != null) {
-			System.out.println("result is not null");
 			return result.get(0);
 
 		}
-		System.out.println("result is null");
 		return 0;
 	}
 
@@ -119,7 +107,6 @@ public class FlightJpaRepository {
 				+ "' and destinationPoint = '" + destination + "' order by f.price";
 		Query query = eManager.createQuery(SQL);
 		List<Flight> result = query.getResultList();
-		System.out.println(result.get(0));
 		return result.get(0);
 	}
 }

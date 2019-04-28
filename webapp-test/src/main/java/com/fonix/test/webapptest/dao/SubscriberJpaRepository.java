@@ -25,9 +25,6 @@ public class SubscriberJpaRepository {
 	      Query query = eManager.createQuery("Select s from Subscriber s where subscription = '" + subscriptionType + "'");
 	      List<Subscriber> list = query.getResultList();
 
-	      for(Subscriber e:list) {
-	         System.out.println("subscriber "+e.getMailId());
-	      }
 		return list;
 	}
 	

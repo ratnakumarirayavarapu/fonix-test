@@ -73,11 +73,8 @@ public class CrawlerService {
 		
 		// read file into stream, try-with-resources
 		try  {
-			//File file = new File(fileName);
 			
 			File file = new File(classLoader.getResource(fileName).getFile());
-			System.out.println("file found " + file.exists());
-			//String fileName = "flightinfo.txt";
 			Scanner sc = new Scanner(file);
 			while (sc.hasNextLine()) {
 				String flight[] = sc.nextLine().split(",");

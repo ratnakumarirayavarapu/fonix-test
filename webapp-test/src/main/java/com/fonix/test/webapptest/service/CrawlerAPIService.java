@@ -15,6 +15,6 @@ public class CrawlerAPIService {
 	@RequestMapping(value = "/api")
 	public String start() {
 		service.runCrawler();
-		return "welcome.jsp";
+		return "crawlerstatus.jsp";
 	}
 }

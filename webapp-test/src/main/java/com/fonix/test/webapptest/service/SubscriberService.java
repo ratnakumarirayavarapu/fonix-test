@@ -49,13 +49,13 @@ public class SubscriberService {
 		repo.addSubscriber(subscriber);
 		
 		if(subscription.equalsIgnoreCase("weekly")) {
-			List<Flight> flights = flightRepo.getWeeklyUpdate();
+			List<Flight> flights = flightRepo.getWeeklyUpdate(subscriber.getSource(), subscriber.getDestination());
 			System.out.println("Hi "+ subscriber.getMailId() +"Your first weekly update ");
 			for(Flight flight:flights) {
 				System.out.println(flight.getFlightNumber() + " " +flight.getDipatureDate() + flight.getPrice());
 			}
 		} else if(subscription.equalsIgnoreCase("monthly")) {
-			List<Flight> flights = flightRepo.getMonthlyUpdate();
+			List<Flight> flights = flightRepo.getMonthlyUpdate(subscriber.getSource(),subscriber.getDestination());
 			System.out.println("Hi "+ subscriber.getMailId() +"Your first monthly update ");
 			for(Flight flight:flights) {
 				System.out.println(flight.getFlightNumber() + " " +flight.getDipatureDate() + flight.getPrice());
