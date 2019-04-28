@@ -4,7 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import org.springframework.stereotype.Component;
-
+/*
+ * Entity for Subscribers data table
+ */
 @Entity
 @Component
 public class Subscriber {

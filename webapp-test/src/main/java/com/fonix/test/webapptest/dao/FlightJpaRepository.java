@@ -15,6 +15,9 @@ import org.springframework.stereotype.Repository;
 
 import com.fonix.test.webapptest.entity.Flight;
 
+/*
+ * Repository to perform CRUD operations on Flight database
+ */
 @Repository
 @Transactional
 public class FlightJpaRepository {
@@ -22,7 +25,10 @@ public class FlightJpaRepository {
 	@PersistenceContext
 	EntityManager eManager;
 
-	public List<Flight> getWeeklyUpdate() {
+	/*
+	 * Method to retrieve weekly updates on Flight details user subscribed from origin to destination
+	 */
+	public List<Flight> getWeeklyUpdate(String origin, String destination) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		sdf.setTimeZone(TimeZone.getDefault());
 
@@ -35,7 +41,9 @@ public class FlightJpaRepository {
 		// 7);
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 		String startDate = sdf.format(cal.getTime());
-		String SQL = "select f from Flight f where f.dipatureDate>= '" + timeStamp + "' and sysDate between '" + startDate + "' and '" + endDate + "'";
+		String SQL = "select f from Flight f where f.dipatureDate>= '" + timeStamp + "' and sysDate between '"
+				+ startDate + "' and '" + endDate + "' and f.originPoint = '" + 
+						 origin + "' and destinationPoint = '" + destination + "'";
 		System.out.println(SQL);
 		Query query = eManager.createQuery(SQL);
 		List<Flight> list = query.getResultList();
@@ -46,7 +54,10 @@ public class FlightJpaRepository {
 		return list;
 	}
 
-	public List<Flight> getMonthlyUpdate() {
+	/*
+	 * Method to retrieve monthly updates on Flight details user subscribed from origin to destination
+	 */
+	public List<Flight> getMonthlyUpdate(String origin, String destination) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		sdf.setTimeZone(TimeZone.getDefault());
 
@@ -60,7 +71,9 @@ public class FlightJpaRepository {
 
 		String startDate = sdf.format(cal.getTime());
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
-		String SQL = "select f from Flight f where f.dipatureDate>= '" + timeStamp + "' and sysDate between '" + startDate + "' and '" + endDate + "'";
+		String SQL = "select f from Flight f where f.dipatureDate>= '" + timeStamp + "' and sysDate between '" + 
+						startDate + "' and '" + endDate + "' and f.originPoint = '" + 
+				 origin + "' and destinationPoint = '" + destination + "'";
 		System.out.println(SQL);
 		Query query = eManager.createQuery(SQL);
 		List<Flight> list = query.getResultList();
@@ -71,30 +84,39 @@ public class FlightJpaRepository {
 		return list;
 	}
 
+	// add flight information to data table Flight when the crawler gets new update
 	public void addFlightInfo(Flight flight) {
 		eManager.merge(flight);
 	}
 
+	// best price on the flight from origin to destination for the available future flights
 	public long getBestPrice(String origin, String destination) {
 		// dipature date>= current date
 		// condition for origin and destination
 		// min price
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
-		String SQL = "select min(f.price) from Flight f where f.dipatureDate>= '" + timeStamp + "' and f.originPoint = '"
-				+ origin + "' and destinationPoint = '" + destination + "'";
+		String SQL = "select min(f.price) from Flight f where f.dipatureDate>= '" + timeStamp
+				+ "' and f.originPoint = '" + origin + "' and destinationPoint = '" + destination + "'";
 		Query query = eManager.createQuery(SQL);
 		List<Long> result = query.getResultList();
 		System.out.println(result.get(0));
-		return result.get(0);
+		if (result.get(0) != null) {
+			System.out.println("result is not null");
+			return result.get(0);
+
+		}
+		System.out.println("result is null");
+		return 0;
 	}
-	
+
+	// best price on the flight from origin to destination for the available future flights
 	public Flight getBestFlight(String origin, String destination) {
 		// dipature date>= current date
 		// condition for origin and destination
 		// min price
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
-		String SQL = "select * from Flight f where f.dipatureDate>= '" + timeStamp + "' and f.originPoint = '"
-				+ origin + "' and destinationPoint = '" + destination + "' order by f.price";
+		String SQL = "select * from Flight f where f.dipatureDate>= '" + timeStamp + "' and f.originPoint = '" + origin
+				+ "' and destinationPoint = '" + destination + "' order by f.price";
 		Query query = eManager.createQuery(SQL);
 		List<Flight> result = query.getResultList();
 		System.out.println(result.get(0));

@@ -19,8 +19,9 @@ public class SubscriberJpaRepository {
 	@PersistenceContext
 	EntityManager eManager;
 	
+	// method to retrieve subscriber information based on frequency 
 	public List<Subscriber> getSubscribersByFrequency(String subscriptionType) {
-	      //Scalar function
+	      
 	      Query query = eManager.createQuery("Select s from Subscriber s where subscription = '" + subscriptionType + "'");
 	      List<Subscriber> list = query.getResultList();
 
@@ -30,6 +31,7 @@ public class SubscriberJpaRepository {
 		return list;
 	}
 	
+	// add subscriber to the data table Subscriber whenever the new subscriber subscribed from UI page
 	public void addSubscriber(Subscriber subscriber) {
 		eManager.merge(subscriber);
 	}

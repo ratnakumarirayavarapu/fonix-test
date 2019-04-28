@@ -27,12 +27,11 @@ public class WeeklySubscriberJob {
 		// get weekly subscribers list from
 		List<Subscriber> weeklySubscribers = repo.getSubscribersByFrequency("weekly");
 		
-		// pull week data from database
-		List<Flight> weeklyFlightUpdates = flightRepo.getWeeklyUpdate();
-		
 		// publish to weekly subscribers 
 		for(Subscriber sub:weeklySubscribers) {
 			System.out.println("HI " + sub.getMailId() + " your weekly update on flights from " + sub.getSource() + " " + sub.getDestination());
+			// pull week data from database
+			List<Flight> weeklyFlightUpdates = flightRepo.getWeeklyUpdate(sub.getSource(),sub.getDestination());
 			for(Flight flight:weeklyFlightUpdates) {
 				System.out.println("flight " + flight.getFlightNumber() + " " + flight.getDipatureDate() + " " +flight.getPrice());
 			}

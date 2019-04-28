@@ -13,7 +13,8 @@ public class CrawlerAPIService {
 	CrawlerService service;
 	
 	@RequestMapping(value = "/api")
-	public void start() {
+	public String start() {
 		service.runCrawler();
+		return "welcome.jsp";
 	}
 }

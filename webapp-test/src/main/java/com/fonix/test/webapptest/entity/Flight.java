@@ -5,7 +5,9 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
+/*
+ * Entity for Flight data table
+ */
 @Entity
 public class Flight {
 	
